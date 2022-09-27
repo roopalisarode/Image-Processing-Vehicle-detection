@@ -1,0 +1,37 @@
+Motion based tracking steps
+
+1. background subtraction algorithm based on Gaussian mixture models
+2. Morphological operations are applied to the resulting foreground mask to eliminate noise
+3. blob analysis detects groups of connected pixels, which are likely to correspond to moving objects
+4. machine learning model to detect the foreground objects is GMM
+
+ALGO
+
+Step1: Read the video and store in a variable
+Step2: Variable and counter initiations
+	1. provide a minimum width and height for the rectangle around the vehicles
+	2. create a counter for keeping count of object(vehicles) detected and a counter for individual vehicle number display on their respective rectangles
+	3. create a line in the video frame, passing the line would increament the counter for vehicle count
+	4. decide on the position of the line in the video
+	5. an offset value(allowable error between pixel) while the vehicles are counted when they cross the line
+	6. define a function for red dot on the vehicles while counting
+	
+Step3:Preprocessing
+	1. Read frames from captured video
+	2. convert the captured video frame to grayscale
+	3. convolution of the grey image with blurring gaussian filter
+	4. apply gaussian mixture based background segmentation algorithm on the convoluted image
+	5. Morphological operation: Dilating image from step 4 with 3X3 filter matrix of ones
+	6. Generate an elliptical structuring element
+	7. perform closing(Dilation followed by erosion)for closing small holes inside the foreground objects, or small black points on the object.
+	8. find contours of the foreground object(vehicles) in the image with the help of contour retrieval mode and contour approximation method parameter
+
+step4: Iterate through the counted objects(vehicles)to put a rectangle around if their width and height is greater than the minimum width and height given by user
+
+step5: Set a text box on top of the rectangles of each vehicle to display its count
+
+step6: Detect the center of the object, place a red dot on it while counting the object and append the count to the total vehicle counter
+
+step7: Update the counter for counting total vehicles in the frame
+
+step8: Display the total number of vehicles count on top of the resulting video
